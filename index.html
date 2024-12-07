@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Interest Computer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <header>
+    <h1>Compound Interest Calculator</h1>
+  </header>
+
+  <main>
+    <div class="form-container">
+      <form id="interest-form">
+        <div class="form-group">
+          <label for="principal">Principal:</label>
+          <input
+            type="number"
+            id="principal"
+            placeholder="Enter principal"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="rate">Interest Rate (%):</label>
+          <input
+            type="number"
+            id="rate"
+            placeholder="Enter rate"
+            step="0.01"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="times">Compounded Per Year:</label>
+          <input type="number" id="times" placeholder="Enter number" required />
+        </div>
+        <div class="form-group">
+          <label for="years">Number of Years:</label>
+          <input type="number" id="years" placeholder="Enter years" required />
+        </div>
+        <button type="submit">Calculate</button>
+      </form>
+      <div class="results">
+        <h2>Results</h2>
+        <p>Total Amount: <span id="total-amount">$0.00</span></p>
+        <p>Earned Interest: <span id="earned-interest">$0.00</span></p>
+        <progress id="progress-bar" value="0" max="100"></progress>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Check out the source code on <a href="https://codesandbox.io/p/sandbox/8w5mms?file=%2Fstyles.css%3A36%2C15" target="_blank">Replit</a></p>
+</footer>
+
+<script src="script.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      
+      const form = document.getElementById('interest-form');
+      const principalInput = document.getElementById('principal');
+      const rateInput = document.getElementById('rate');
+      const timesInput = document.getElementById('times');
+      const yearsInput = document.getElementById('years');
+      const totalAmountSpan = document.getElementById('total-amount');
+      const earnedInterestSpan = document.getElementById('earned-interest');
+      const progressBar = document.getElementById('progress-bar');
+      
+      function calculateCompoundInterest(principal, rate, times, years) {
+          const amount = principal * Math.pow((1 + rate / times), times * years);
+          const interest = amount - principal;
+          return { amount, interest };
+      }
+
+      form.addEventListener('submit', function(event) {
+          event.preventDefault(); 
+
+          const principal = parseFloat(principalInput.value);
+          const rate = parseFloat(rateInput.value) / 100; 
+          const times = parseInt(timesInput.value, 10);
+          const years = parseInt(yearsInput.value, 10);
+
+          const { amount, interest } = calculateCompoundInterest(principal, rate, times, years);
+
+          totalAmountSpan.textContent = `$${amount.toFixed(2)}`;
+          earnedInterestSpan.textContent = `$${interest.toFixed(2)}`;
+
+          const maxYears = 50; 
+          const progress = Math.min((years / maxYears) * 100, 100);
+          progressBar.value = progress;
+      });
+  });
+</script>
+</body>
+</html>
+</body>
+</html>
